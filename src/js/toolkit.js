@@ -21,12 +21,9 @@ const matrixToolkit = {
   * 选中后交换当前元素与抽中元素
   * */
   shuffle(array) {
-    const endIndex = array.length - 2
-    for (let i = 0; i <= endIndex; i++) {
-      const j = ~~(Math.random() * (array.length - i)) + i;
-      [array[i], array[j]] = [array[j], array[i]]   //注：结构赋值语句之前一定要加分号
-    }
-    return array
+    let arr = []
+    array.map((v, i, k) => arr[i] = k[~~(Math.random() * (array.length - i)) + i])
+    return arr
   }
 }
 
