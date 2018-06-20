@@ -4,16 +4,16 @@
 * Description:
 */
 
-const makeRow = (v = 0) => {
-  const array = new Array(9)
-  return array.fill(v)
-}
 
-const makeMatrix = (v = 0) =>
-  Array.from({length: 9},() => makeRow(v))
+const tookKit = require('./toolkit')
 
+matrix = tookKit.makeMatrix()
 
-const a = makeMatrix()
+console.log(matrix)
+
+const a = Array.from({length: 10}, (v, i) => i)
+
 console.log(a);
-console.log(a[0][1]=2);
-console.log(a);
+console.log(tookKit.shuffle(a));
+
+
