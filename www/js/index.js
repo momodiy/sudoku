@@ -73,26 +73,69 @@
 /*
 * Author: stevenlee
 * Date: 2018/6/20
+* Description:
+*/
+
+var tookKit = __webpack_require__(1);
+
+matrix = tookKit.makeMatrix();
+
+console.log(matrix);
+
+var a = Array.from({ length: 10 }, function (v, i) {
+  return i;
+});
+
+console.log(a);
+console.log(tookKit.shuffle(a));
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*
+* Author: stevenlee
+* Date: 2018/6/20
 * Description: ... 
 */
 
-var makeRow = function makeRow() {
-  var v = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+var matrixToolkit = {
+  makeRow: function makeRow() {
+    var v = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    //当前对象的makeRow方法
+    var array = new Array(9);
+    return array.fill(v);
+  },
+  makeMatrix: function makeMatrix() {
+    var _this = this;
 
-  var array = new Array(9);
-  return array.fill(v);
+    var v = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+    return Array.from({ length: 9 }, function () {
+      return _this.makeRow(v);
+    });
+  },
+
+
+  /*
+  * Fisher-Yates 洗牌算法
+  * 循环次数为数组长度减一
+  * 每次循环从第一个元素开始，包括其自身向后随机往后抽取一个元素
+  * 选中后交换当前元素与抽中元素
+  * */
+  shuffle: function shuffle(array) {
+    var arr = [];
+    array.map(function (v, i, k) {
+      return arr[i] = k[~~(Math.random() * (array.length - i)) + i];
+    });
+    return arr;
+  }
 };
 
-var makeMatrix = function makeMatrix() {
-  var v = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-
-  var array = new Array(9);
-  return array.fill(makeRow(v));
-};
-
-var a = makeMatrix();
-a[0][1] = 2;
-console.log(a);
+module.exports = matrixToolkit;
 
 /***/ })
 /******/ ]);
