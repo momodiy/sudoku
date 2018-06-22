@@ -70,24 +70,62 @@
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 /*
 * Author: stevenlee
 * Date: 2018/6/20
 * Description:
 */
 
-var tookKit = __webpack_require__(1);
+var toolkit = __webpack_require__(1);
 
-matrix = tookKit.makeMatrix();
+var Grid = function () {
+  function Grid(container) {
+    _classCallCheck(this, Grid);
 
-console.log(matrix);
+    this._$container = container;
+  }
 
-var a = Array.from({ length: 10 }, function (v, i) {
-  return i;
-});
+  _createClass(Grid, [{
+    key: 'build',
+    value: function build() {
+      var matrix = toolkit.makeMatrix();
 
-console.log(a);
-console.log(tookKit.shuffle(a));
+      var rowGroupClasses = ['row_g_top', 'row_g_middle', 'row_g_bottom'];
+      var colGroupClasses = ['col_g_left', 'col_g_center', 'col_g_right'];
+
+      var $cells = matrix.map(function (rowValues) {
+        return rowValues.map(function (cellValue, index) {
+          return $("<span>").addClass(colGroupClasses[index % 3]).text(cellValue);
+        });
+      });
+
+      var $divArray = $cells.map(function ($spanArray, index) {
+        return $("<div>").addClass("row").addClass(rowGroupClasses[index % 3]).append($spanArray);
+      });
+
+      this._$container.append($divArray);
+    }
+  }, {
+    key: 'layout',
+    value: function layout() {
+      var width = $('span:first', this._$container).width();
+      $('span', this._$container).height(width).css({
+        "line-height": width + 'px',
+        "font-size": width < 32 ? width / 2 + 'px' : ''
+      });
+    }
+  }]);
+
+  return Grid;
+}();
+
+var grid = new Grid($("#container"));
+grid.build();
+grid.layout();
 
 /***/ }),
 /* 1 */

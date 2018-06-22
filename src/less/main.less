@@ -26,12 +26,59 @@ body {
   h1 {
     margin: 0;
     padding: 0;
+    font-weight: normal;
   }
 
 }
 
 .hidden {
   display: none;
+}
+
+.container {
+  padding-left: 5%;
+
+  .row {
+    > span {
+      display: inline-block;
+      cursor: pointer;
+      text-align: center;
+      width: 10%;
+      height: 24px;
+      line-height: 24px;
+      border: 1px solid #cccccc;
+      background: white;
+      border-right-width: 0;
+      border-bottom-width: 0;
+
+      &.col_g_right {
+        border-right-width: 1px;
+      }
+
+      &:first-child {
+        border-left-width: 2px;
+      }
+      &:last-child {
+        border-right-width: 2px;
+      }
+    }
+
+    &.row_g_bottom {
+      > span {
+        border-bottom-width: 1px;
+      }
+    }
+    &:first-child {
+      > span {
+        border-top-width: 2px;
+      }
+    }
+    &:last-child {
+      > span {
+        border-bottom-width: 2px;
+      }
+    }
+  }
 }
 
 .dashboard {
@@ -55,6 +102,7 @@ body {
       width: 25%;
       height: 3rem;
       font-size: 1.3rem;
+      font-family: "微软雅黑";
       color: white;
       border: 1px solid #cccccc;
       background: transparent;

@@ -5,15 +5,48 @@
 */
 
 
-const tookKit = require('./toolkit')
+const toolkit = require('./toolkit')
 
-matrix = tookKit.makeMatrix()
+class Grid {
+  constructor(container) {
+    this._$container = container;
+  }
 
-console.log(matrix)
+  build() {
+    const matrix = toolkit.makeMatrix()
 
-const a = Array.from({length: 10}, (v, i) => i)
+    const rowGroupClasses = ['row_g_top', 'row_g_middle', 'row_g_bottom']
+    const colGroupClasses = ['col_g_left', 'col_g_center', 'col_g_right']
 
-console.log(a);
-console.log(tookKit.shuffle(a));
+    const $cells = matrix.map(rowValues => rowValues
+      .map((cellValue, index) =>
+        $("<span>")
+          .addClass(colGroupClasses[index % 3])
+          .text(cellValue)
+      ));
 
+    const $divArray = $cells.map(($spanArray, index) =>
+      $("<div>")
+        .addClass("row")
+        .addClass(rowGroupClasses[index % 3])
+        .append($spanArray)
+    )
 
+    this._$container.append($divArray)
+  }
+
+  layout() {
+    const width = $('span:first', this._$container).width()
+    $('span', this._$container)
+      .height(width)
+      .css({
+        "line-height": `${width}px`,
+        "font-size": width < 32 ? `${width / 2}px` : ''
+      })
+
+  }
+}
+
+const grid = new Grid($("#container"))
+grid.build()
+grid.layout()
