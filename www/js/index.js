@@ -70,17 +70,36 @@
 "use strict";
 
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 /*
 * Author: stevenlee
 * Date: 2018/6/20
 * Description:
 */
 
-var toolkit = __webpack_require__(1);
+var Grid = __webpack_require__(1);
+
+var grid = new Grid($("#container"));
+grid.build();
+grid.layout();
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+* Author: stevenlee
+* Date: 2018/6/22
+* Description: Generate Jiugongge
+*/
+
+var ToolKit = __webpack_require__(2);
 
 var Grid = function () {
   function Grid(container) {
@@ -92,8 +111,7 @@ var Grid = function () {
   _createClass(Grid, [{
     key: 'build',
     value: function build() {
-      var matrix = toolkit.makeMatrix();
-
+      var matrix = ToolKit.matrix.makeMatrix();
       var rowGroupClasses = ['row_g_top', 'row_g_middle', 'row_g_bottom'];
       var colGroupClasses = ['col_g_left', 'col_g_center', 'col_g_right'];
 
@@ -123,16 +141,18 @@ var Grid = function () {
   return Grid;
 }();
 
-var grid = new Grid($("#container"));
-grid.build();
-grid.layout();
+module.exports = Grid;
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /*
 * Author: stevenlee
@@ -140,6 +160,7 @@ grid.layout();
 * Description: ... 
 */
 
+// 矩阵和数组相关的工具
 var matrixToolkit = {
   makeRow: function makeRow() {
     var v = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
@@ -170,10 +191,87 @@ var matrixToolkit = {
       return arr[i] = k[~~(Math.random() * (array.length - i)) + i];
     });
     return arr;
+  },
+
+  /**
+   * 检查当前位置是否可填写
+   * */
+  checkFillable: function checkFillable(matrix, n, rowIndex, colIndex) {
+    //取出行、列、宫中所有数据
+    var row = matrix[rowIndex]; //获取行数据
+    var colnum = this.makeRow().map(function (v, i) {
+      return matrix[i][colIndex];
+    }); //获取列数据
+
+    var _boxToolkit$convertTo = boxToolkit.convertToBoxIndex(rowIndex, colIndex),
+        boxIndex = _boxToolkit$convertTo.boxIndex; //获取宫数据
+
+
+    var box = boxToolkit.getBoxCells(matrix, boxIndex);
+    for (var i = 0; i < 9; i++) {
+      if (row[i] === n || colnum[i] === n || box[i] === n) {
+        //重复、不可填入
+        return false;
+      }
+    }
+    return true; // 可以填入
   }
 };
 
-module.exports = matrixToolkit;
+//宫坐标系工具
+var boxToolkit = {
+  getBoxCells: function getBoxCells(matrix, boxIndex) {
+    var startRowIndex = Math.floor(boxIndex / 3) * 3;
+    var startColIndex = boxIndex % 3 * 3;
+    var result = [];
+    for (var cellIndex = 0; cellIndex < 9; cellIndex++) {
+      var rowIndex = startRowIndex + Math.floor(cellIndex / 3);
+      var colIndex = startColIndex + Math.floor(cellIndex % 3);
+      result.push(matrix[rowIndex][colIndex]);
+    }
+    return result;
+  },
+  convertToBoxIndex: function convertToBoxIndex(rowIndex, colIndex) {
+    return {
+      boxIndex: Math.floor(rowIndex / 3) * 3 + Math.floor(colIndex / 3),
+      cellIndex: rowIndex % 3 * 3 + colIndex % 3
+    };
+  },
+  convertFromBoxIndex: function convertFromBoxIndex(boxIndex, cellIndex) {
+    return {
+      rowIndex: Math.floor(boxIndex / 3) * 3 + Math.floor(cellIndex / 3),
+      colIndex: boxIndex % 3 * 3 + cellIndex % 3
+    };
+  }
+};
+
+//工具集
+
+
+module.exports = function () {
+  function Toolkit() {
+    _classCallCheck(this, Toolkit);
+  }
+
+  _createClass(Toolkit, null, [{
+    key: "matrix",
+
+    //矩阵和数据相关的工具
+    get: function get() {
+      return matrixToolkit;
+    }
+
+    //宫坐标系相关工具
+
+  }, {
+    key: "box",
+    get: function get() {
+      return boxToolkit;
+    }
+  }]);
+
+  return Toolkit;
+}();
 
 /***/ })
 /******/ ]);
