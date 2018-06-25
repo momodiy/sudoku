@@ -79,7 +79,6 @@ const boxToolkit = {
       colIndex: boxIndex % 3 * 3 + cellIndex % 3
     }
   }
-
 };
 
 //工具集
