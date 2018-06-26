@@ -61,14 +61,26 @@ body {
       &.empty {
         color: white;
       }
+      &.error {
+        background: lightpink;
+        &.empty{
+          color: lightpink;
+        }
+      }
       &.fixed {
         background: lightcyan;
       }
       &.mark1 {
-        background: lightpink;
+        background: lightblue;
+        &.empty{
+          color: lightblue;
+        }
       }
       &.mark2 {
         background: lightgreen;
+        &.empty{
+          color: lightgreen;
+        }
       }
     }
 
