@@ -4,8 +4,8 @@
 * Description: Generate Jiugongge
 */
 
-const ToolKit = require("../core/toolkit");
-const Generator = require('../core/generator')
+const ToolKit = require("../core/toolkit")
+const Sudoku = require('../core/sudoku')
 
 class Grid {
   constructor(container) {
@@ -13,10 +13,9 @@ class Grid {
   }
 
   build() {
-    const generator = new Generator()
-    generator.generate()
-
-    const matrix = generator.matrix
+    const sudoku = new Sudoku()
+    sudoku.make()
+    const matrix = sudoku.puzzleMatrix
 
     const rowGroupClasses = ['row_g_top', 'row_g_middle', 'row_g_bottom']
     const colGroupClasses = ['col_g_left', 'col_g_center', 'col_g_right']
@@ -25,6 +24,7 @@ class Grid {
       .map((cellValue, index) =>
         $("<span>")
           .addClass(colGroupClasses[index % 3])
+          .addClass(cellValue ? 'fixed' : 'empty')
           .text(cellValue)
       ));
 
