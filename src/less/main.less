@@ -50,28 +50,28 @@ body {
       background: white;
       border-right-width: 0;
       border-bottom-width: 0;
+      vertical-align: top;
 
       &.col_g_right {
         border-right-width: 1px;
       }
-
       &:first-child {
         border-left-width: 2px;
       }
-    }
-    &.empty {
-      color: white;
-    }
-    &.fixed {
-      background: lightcyan;
+      &.empty {
+        color: white;
+      }
+      &.fixed {
+        background: lightcyan;
+      }
+      &.mark1 {
+        background: lightpink;
+      }
+      &.mark2 {
+        background: lightgreen;
+      }
     }
 
-    &.mark1 {
-      background: lightpink;
-    }
-    &.mark2 {
-      background: lightgreen;
-    }
   }
 
   &.row_g_bottom {
@@ -94,6 +94,8 @@ body {
 @popupCellSize: 40px;
 .popup-number {
   .container();
+  position: absolute;
+  padding-left: 0;
   .row {
     > span {
       width: @popupCellSize;

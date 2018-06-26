@@ -46,7 +46,14 @@ class Grid {
         "line-height": `${width}px`,
         "font-size": width < 32 ? `${width / 2}px` : ''
       })
+  }
 
+  bindPopup(popupNumbers) {
+    //事件代理，将click事件绑定到container上
+    this._$container.on('click', 'span', e => {
+      const $cell = $(e.target)
+      popupNumbers.popup($cell)
+    })
   }
 }
 

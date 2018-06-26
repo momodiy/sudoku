@@ -217,10 +217,14 @@ module.exports = function () {
 */
 
 var Grid = __webpack_require__(2);
-
+var PopupNumbers = __webpack_require__(5);
 var grid = new Grid($("#container"));
 grid.build();
 grid.layout();
+
+var popupNumbers = new PopupNumbers($("#popupNumbers"));
+
+grid.bindPopup(popupNumbers);
 
 /***/ }),
 /* 2 */
@@ -278,6 +282,15 @@ var Grid = function () {
       $('span', this._$container).height(width).css({
         "line-height": width + 'px',
         "font-size": width < 32 ? width / 2 + 'px' : ''
+      });
+    }
+  }, {
+    key: 'bindPopup',
+    value: function bindPopup(popupNumbers) {
+      //事件代理，将click事件绑定到container上
+      this._$container.on('click', 'span', function (e) {
+        var $cell = $(e.target);
+        popupNumbers.popup($cell);
       });
     }
   }]);
@@ -428,6 +441,85 @@ module.exports = function () {
   }]);
 
   return Generator;
+}();
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+* Author: stevenlee
+* Date: 2018/6/22
+* Description: 处理弹出的操作面板
+*/
+
+module.exports = function () {
+  function PopupNumbers($panel) {
+    var _this = this;
+
+    _classCallCheck(this, PopupNumbers);
+
+    this._$panel = $panel.hide().removeClass('hidden');
+
+    this._$panel.on('click', 'span', function (e) {
+      var $cell = _this._targetCell;
+
+      var $span = $(e.target);
+
+      //  Backfill style
+      if ($span.hasClass('mark1')) {
+        if ($cell.hasClass('mark1')) {
+          $cell.removeClass('mark1');
+        } else {
+          $cell.removeClass('mark2').addClass('mark1');
+        }
+      } else if ($span.hasClass('mark2')) {
+        if ($cell.hasClass('mark2')) {
+          $cell.removeClass('mark2');
+        } else {
+          $cell.removeClass('mark1').addClass('mark2');
+        }
+      } else $span.hasClass('empty');
+      {
+        // Remove number
+        $cell.text(0).addClass('empty');
+      }
+      _this.hide();
+
+      //  Backfill number
+      $cell.removeClass('empty').text($span.text());
+    });
+  }
+
+  _createClass(PopupNumbers, [{
+    key: 'popup',
+    value: function popup($cell) {
+      this._targetCell = $cell;
+
+      var _$cell$position = $cell.position(),
+          left = _$cell$position.left,
+          top = _$cell$position.top;
+
+      this._$panel.css({
+        left: left + 'px',
+        top: top + 'px'
+      }).show();
+    }
+  }, {
+    key: 'hide',
+    value: function hide() {
+      this._$panel.hide();
+    }
+  }]);
+
+  return PopupNumbers;
 }();
 
 /***/ })
