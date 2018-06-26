@@ -60,91 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/*
-* Author: stevenlee
-* Date: 2018/6/20
-* Description:
-*/
-
-var Grid = __webpack_require__(1);
-
-var grid = new Grid($("#container"));
-grid.build();
-grid.layout();
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/*
-* Author: stevenlee
-* Date: 2018/6/22
-* Description: Generate Jiugongge
-*/
-
-var ToolKit = __webpack_require__(2);
-
-var Grid = function () {
-  function Grid(container) {
-    _classCallCheck(this, Grid);
-
-    this._$container = container;
-  }
-
-  _createClass(Grid, [{
-    key: 'build',
-    value: function build() {
-      var matrix = ToolKit.matrix.makeMatrix();
-      var rowGroupClasses = ['row_g_top', 'row_g_middle', 'row_g_bottom'];
-      var colGroupClasses = ['col_g_left', 'col_g_center', 'col_g_right'];
-
-      var $cells = matrix.map(function (rowValues) {
-        return rowValues.map(function (cellValue, index) {
-          return $("<span>").addClass(colGroupClasses[index % 3]).text(cellValue);
-        });
-      });
-
-      var $divArray = $cells.map(function ($spanArray, index) {
-        return $("<div>").addClass("row").addClass(rowGroupClasses[index % 3]).append($spanArray);
-      });
-
-      this._$container.append($divArray);
-    }
-  }, {
-    key: 'layout',
-    value: function layout() {
-      var width = $('span:first', this._$container).width();
-      $('span', this._$container).height(width).css({
-        "line-height": width + 'px',
-        "font-size": width < 32 ? width / 2 + 'px' : ''
-      });
-    }
-  }]);
-
-  return Grid;
-}();
-
-module.exports = Grid;
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -186,11 +106,14 @@ var matrixToolkit = {
   * 选中后交换当前元素与抽中元素
   * */
   shuffle: function shuffle(array) {
-    var arr = [];
-    array.map(function (v, i, k) {
-      return arr[i] = k[~~(Math.random() * (array.length - i)) + i];
+    return array.map(function (v, i, a) {
+      var index = ~~(Math.random() * (a.length - i)) + i;
+      var _ref = [a[index], a[i]];
+      a[i] = _ref[0];
+      a[index] = _ref[1];
+
+      return a[i];
     });
-    return arr;
   },
 
   /**
@@ -199,7 +122,7 @@ var matrixToolkit = {
   checkFillable: function checkFillable(matrix, n, rowIndex, colIndex) {
     //取出行、列、宫中所有数据
     var row = matrix[rowIndex]; //获取行数据
-    var colnum = this.makeRow().map(function (v, i) {
+    var col = this.makeRow().map(function (v, i) {
       return matrix[i][colIndex];
     }); //获取列数据
 
@@ -209,7 +132,7 @@ var matrixToolkit = {
 
     var box = boxToolkit.getBoxCells(matrix, boxIndex);
     for (var i = 0; i < 9; i++) {
-      if (row[i] === n || colnum[i] === n || box[i] === n) {
+      if (row[i] === n || col[i] === n || box[i] === n) {
         //重复、不可填入
         return false;
       }
@@ -231,6 +154,14 @@ var boxToolkit = {
     }
     return result;
   },
+
+
+  /*
+  * rowIndex 行索引
+  * colIndex 列索引
+  * boxIndex 宫索引
+  * cellIndex 宫内序号
+  * */
   convertToBoxIndex: function convertToBoxIndex(rowIndex, colIndex) {
     return {
       boxIndex: Math.floor(rowIndex / 3) * 3 + Math.floor(colIndex / 3),
@@ -246,7 +177,6 @@ var boxToolkit = {
 };
 
 //工具集
-
 
 module.exports = function () {
   function Toolkit() {
@@ -271,6 +201,187 @@ module.exports = function () {
   }]);
 
   return Toolkit;
+}();
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*
+* Author: stevenlee
+* Date: 2018/6/20
+* Description:
+*/
+
+var Grid = __webpack_require__(2);
+
+var grid = new Grid($("#container"));
+grid.build();
+grid.layout();
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+* Author: stevenlee
+* Date: 2018/6/22
+* Description: Generate Jiugongge
+*/
+
+var ToolKit = __webpack_require__(0);
+var Generator = __webpack_require__(3);
+
+var Grid = function () {
+  function Grid(container) {
+    _classCallCheck(this, Grid);
+
+    this._$container = container;
+  }
+
+  _createClass(Grid, [{
+    key: 'build',
+    value: function build() {
+      var generator = new Generator();
+      generator.generate();
+
+      var matrix = generator.matrix;
+
+      var rowGroupClasses = ['row_g_top', 'row_g_middle', 'row_g_bottom'];
+      var colGroupClasses = ['col_g_left', 'col_g_center', 'col_g_right'];
+
+      var $cells = matrix.map(function (rowValues) {
+        return rowValues.map(function (cellValue, index) {
+          return $("<span>").addClass(colGroupClasses[index % 3]).text(cellValue);
+        });
+      });
+
+      var $divArray = $cells.map(function ($spanArray, index) {
+        return $("<div>").addClass("row").addClass(rowGroupClasses[index % 3]).append($spanArray);
+      });
+
+      this._$container.append($divArray);
+    }
+  }, {
+    key: 'layout',
+    value: function layout() {
+      var width = $('span:first', this._$container).width();
+      $('span', this._$container).height(width).css({
+        "line-height": width + 'px',
+        "font-size": width < 32 ? width / 2 + 'px' : ''
+      });
+    }
+  }]);
+
+  return Grid;
+}();
+
+module.exports = Grid;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+* Author: stevenlee
+* Date: 2018/6/22
+* Description: Generate Sudoku solutions
+*/
+
+var Toolkit = __webpack_require__(0);
+
+module.exports = function () {
+  function Generator() {
+    _classCallCheck(this, Generator);
+  }
+
+  _createClass(Generator, [{
+    key: "generate",
+    value: function generate() {
+      while (!this.internalGenerate()) {
+        console.warn("try again");
+      }
+    }
+  }, {
+    key: "internalGenerate",
+    value: function internalGenerate() {
+      this.matrix = Toolkit.matrix.makeMatrix();
+      // console.log(this.matrix);
+      this.orders = Toolkit.matrix.makeMatrix() //随机序列矩阵
+      .map(function (row) {
+        return row.map(function (v, i) {
+          return i;
+        });
+      }).map(function (row) {
+        return Toolkit.matrix.shuffle(row);
+      });
+      // console.log(this.orders);
+
+      // Toolkit.matrix.makeRow()
+      //   .every()
+
+      for (var n = 1; n <= 9; n++) {
+        if (!this.fillNumber(n)) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }, {
+    key: "fillNumber",
+    value: function fillNumber(n) {
+      return this.fillRow(n, 0);
+    }
+  }, {
+    key: "fillRow",
+    value: function fillRow(n, rowIndex) {
+      if (rowIndex > 8) {
+        return true;
+      }
+
+      var row = this.matrix[rowIndex];
+      var orders = this.orders[rowIndex];
+
+      for (var i = 0; i < 9; i++) {
+        var colIndex = orders[i];
+        if (row[colIndex]) {
+          // 当前位置已经有值，跳过
+          continue;
+        }
+        //  检查这个位置是否可填入 n
+        if (!Toolkit.matrix.checkFillable(this.matrix, n, rowIndex, colIndex)) {
+          continue;
+        }
+        row[colIndex] = n;
+        // 去下一行填写n，填写失败，则继续在当前行寻找下一个位置
+        if (!this.fillRow(n, rowIndex + 1)) {
+          row[colIndex] = 0;
+          continue;
+        }
+        return true;
+      }
+      return false;
+    }
+  }]);
+
+  return Generator;
 }();
 
 /***/ })
