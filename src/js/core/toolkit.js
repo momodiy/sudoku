@@ -5,45 +5,6 @@
 * Description: ...
 */
 Object.defineProperty(exports, "__esModule", { value: true });
-// 矩阵和数组相关的工具
-const matrixToolkit = {
-    makeRow(v = 0) {
-        const array = new Array(9);
-        return array.fill(v);
-    },
-    makeMatrix(v = 0) {
-        return Array.from({ length: 9 }, () => this.makeRow(v));
-    },
-    /*
-    * Fisher-Yates 洗牌算法
-    * 循环次数为数组长度减一
-    * 每次循环从第一个元素开始，包括其自身向后随机往后抽取一个元素
-    * 选中后交换当前元素与抽中元素
-    * */
-    shuffle(array) {
-        return array.map((v, i, a) => {
-            let index = ~~(Math.random() * (a.length - i)) + i;
-            [a[i], a[index]] = [a[index], a[i]];
-            return a[i];
-        });
-    },
-    /**
-     * 检查当前位置是否可填写
-     * */
-    checkFillable(matrix, n, rowIndex, colIndex) {
-        //取出行、列、宫中所有数据
-        const row = matrix[rowIndex]; //获取行数据
-        const col = this.makeRow().map((v, i) => matrix[i][colIndex]); //获取列数据
-        const { boxIndex } = boxToolkit.convertToBoxIndex(rowIndex, colIndex); //获取宫数据
-        const box = boxToolkit.getBoxCells(matrix, boxIndex);
-        for (let i = 0; i < 9; i++) {
-            if (row[i] === n || col[i] === n || box[i] === n) { //重复、不可填入
-                return false;
-            }
-        }
-        return true; // 可以填入
-    }
-};
 //宫坐标系工具
 const boxToolkit = {
     getBoxCells(matrix, boxIndex) {
@@ -76,11 +37,51 @@ const boxToolkit = {
         };
     }
 };
+// 矩阵和数组相关的工具
+class MatrixToolkit {
+    static makeRow(v = 0) {
+        const array = new Array(9);
+        return array.fill(v);
+    }
+    static makeMatrix(v = 0) {
+        return Array.from({ length: 9 }, () => this.makeRow(v));
+    }
+    /*
+    * Fisher-Yates 洗牌算法
+    * 循环次数为数组长度减一
+    * 每次循环从第一个元素开始，包括其自身向后随机往后抽取一个元素
+    * 选中后交换当前元素与抽中元素
+    * */
+    static shuffle(array) {
+        return array.map((v, i, a) => {
+            let index = ~~(Math.random() * (a.length - i)) + i;
+            [a[i], a[index]] = [a[index], a[i]];
+            return a[i];
+        });
+    }
+    /**
+     * 检查当前位置是否可填写
+     * */
+    static checkFillable(matrix, n, rowIndex, colIndex) {
+        //取出行、列、宫中所有数据
+        const row = matrix[rowIndex]; //获取行数据
+        const col = this.makeRow().map((v, i) => matrix[i][colIndex]); //获取列数据
+        const { boxIndex } = boxToolkit.convertToBoxIndex(rowIndex, colIndex); //获取宫数据
+        const box = boxToolkit.getBoxCells(matrix, boxIndex);
+        for (let i = 0; i < 9; i++) {
+            if (row[i] === n || col[i] === n || box[i] === n) { //重复、不可填入
+                return false;
+            }
+        }
+        return true; // 可以填入
+    }
+}
 //工具集
 class Toolkit {
     //矩阵和数据相关的工具
+    //显示定义返回值类型为MatrixToolkit的类型
     static get matrix() {
-        return matrixToolkit;
+        return MatrixToolkit;
     }
     //宫坐标系相关工具
     static get box() {

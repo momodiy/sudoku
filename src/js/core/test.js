@@ -1,3 +1,4 @@
+"use strict";
 /*
 * Author: stevenlee
 * Date: 2018/6/25
