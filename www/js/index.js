@@ -277,9 +277,9 @@ var Grid = function () {
     value: function build() {
       var sudoku = new Sudoku();
       sudoku.make();
-      var matrix = sudoku.solutionMatrix; //调试模式：默认填入所有项
+      // const matrix = sudoku.solutionMatrix  //调试模式：默认填入所有项
 
-      // const matrix = sudoku.puzzleMatrix
+      var matrix = sudoku.puzzleMatrix;
 
       var rowGroupClasses = ['row_g_top', 'row_g_middle', 'row_g_bottom'];
       var colGroupClasses = ['col_g_left', 'col_g_center', 'col_g_right'];

@@ -16,9 +16,9 @@ class Grid {
   build() {
     const sudoku = new Sudoku()
     sudoku.make()
-    const matrix = sudoku.solutionMatrix  //调试模式：默认填入所有项
+    // const matrix = sudoku.solutionMatrix  //调试模式：默认填入所有项
 
-    // const matrix = sudoku.puzzleMatrix
+    const matrix = sudoku.puzzleMatrix
 
     const rowGroupClasses = ['row_g_top', 'row_g_middle', 'row_g_bottom']
     const colGroupClasses = ['col_g_left', 'col_g_center', 'col_g_right']
