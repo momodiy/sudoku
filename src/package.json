@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "Steven Lee",
   "license": "MIT",
+  "scripts": {
+    "gulp": "./node_modules/.bin/gulp"
+  },
   "devDependencies": {
     "@types/jquery": "^3.3.4",
     "babel-core": "^6.26.3",
@@ -12,7 +15,9 @@
     "gulp": "^3.9.1",
     "gulp-less": "^3.5.0",
     "gulp-util": "^3.0.8",
+    "ts-loader": "^4.4.1",
     "typescript": "^2.9.2",
+    "webpack": "^4.12.2",
     "webpack-stream": "^4.0.3"
   }
 }

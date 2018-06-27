@@ -55,7 +55,6 @@ class Grid {
         }
         //  检查不成功
         const marks = checker.matrixMarks;
-        console.log(marks);
         this._$container.children()
             .each((rolIndex, div) => {
             $(div).children().each((colIndex, span) => {
