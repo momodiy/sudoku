@@ -10,8 +10,8 @@ import Generator from './generator'
 
 export class Sudoku {
 
-    solutionMatrix;
-    puzzleMatrix;
+    solutionMatrix:number[][]
+    puzzleMatrix:any
 
     constructor() {
         const generator = new Generator()
@@ -19,7 +19,7 @@ export class Sudoku {
         this.solutionMatrix = generator.matrix
     }
 
-    make(level = 5) {
+    make(level:number = 5) {
         // const shouldRid = Math.random() * 9 < level
         this.puzzleMatrix = this.solutionMatrix.map(row => row.map(cell => Math.random() * 9 < level ? 0 : cell))
 

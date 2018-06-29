@@ -12,8 +12,6 @@ gulp.task('webpack', () => {
   return gulp.src('./js/**/*.ts')
     .pipe(webpack(config, require('webpack')))
     .pipe(gulp.dest('../www/js'))
-
-
 })
 
 gulp.task('less', () => {
@@ -24,7 +22,6 @@ gulp.task('less', () => {
 })
 
 gulp.task('default', ['webpack', 'less'])
-
 
 gulp.task('watch', ['webpack', 'less'], () => {
   gulp.watch('less/**/*.less', ['less'])

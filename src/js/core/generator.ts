@@ -8,10 +8,10 @@ import Toolkit from './toolkit';
 
 export class Generator {
 
-    matrix: any;
-    orders; //the default type is any
+    matrix:any;
+    orders:any;
 
-    generate() {
+    generate():void {
         while (!this.internalGenerate()) {
             console.warn("try again")
         }
@@ -36,11 +36,11 @@ export class Generator {
         return true
     }
 
-    fillNumber(n) {
+    private fillNumber(n:number) {
         return this.fillRow(n, 0)
     }
 
-    fillRow(n, rowIndex) {
+    private fillRow(n:number, rowIndex:number) {
         if (rowIndex > 8) {
             return true
         }

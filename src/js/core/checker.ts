@@ -4,9 +4,9 @@
 * Description: Generate data solutions
 */
 
-const checkArray = array => {
-    const length = array.length
-    const marks = new Array(length).fill(true) // 用于标记数组中错误的项
+const checkArray = (array: number[]): boolean[] => {
+    const length: number = array.length
+    const marks: boolean[] = new Array(length).fill(true) // 用于标记数组中错误的项
     array.map((v, i, a) => {
         if (!marks[i]) return
         // 是否有效 有效：'t' 无效：'f'
@@ -35,24 +35,24 @@ import Toolkit from './toolkit'
 
 export class Checker {
 
-    private _matrix;
-    private _matrixMarks;
+    private _matrix: number[][];
+    private _matrixMarks: boolean[][];
     private _success: boolean = false;
 
-    constructor(matrix) {
+    constructor(matrix: number[][]) {
         this._matrix = matrix
         this._matrixMarks = Toolkit.matrix.makeMatrix(true)
     }
 
-    get matrixMarks() {
+    get matrixMarks():boolean[][] {
         return this._matrixMarks
     }
 
-    get isSuccess() {
+    get isSuccess():boolean {
         return this._success
     }
 
-    check() {
+    check():boolean {
         this.checkRows()
         this.checkCols()
         this.checkBoxes()
@@ -62,7 +62,7 @@ export class Checker {
         return this._success
     }
 
-    checkRows() {
+    private checkRows() {
         for (let rowIndex = 0; rowIndex < 9; rowIndex++) {
             const row = this._matrix[rowIndex]
             const marks = checkArray(row)
@@ -75,7 +75,7 @@ export class Checker {
         }
     }
 
-    checkCols() {
+    private checkCols() {
         for (let colIndex = 0; colIndex < 9; colIndex++) {
             const cols = []
             for (let rowIndex = 0; rowIndex < 9; rowIndex++) {
@@ -91,7 +91,7 @@ export class Checker {
         }
     }
 
-    checkBoxes() {
+    private checkBoxes() {
         for (let boxIndex = 0; boxIndex < 9; boxIndex++) {
             const boxes = Toolkit.box.getBoxCells(this._matrix, boxIndex)
             const marks = checkArray(boxes)
