@@ -21,11 +21,13 @@ class Grid {
         const matrix = sudoku.puzzleMatrix;
         const rowGroupClasses = ['row_g_top', 'row_g_middle', 'row_g_bottom'];
         const colGroupClasses = ['col_g_left', 'col_g_center', 'col_g_right'];
-        const $cells = matrix.map(rowValues => rowValues
-            .map((cellValue, index) => $("<span>")
-            .addClass(colGroupClasses[index % 3])
-            .addClass(cellValue ? 'fixed' : 'empty')
-            .text(cellValue)));
+        const $cells = matrix.map((rowValues) => rowValues
+            .map((cellValue, index) => {
+            return $("<span>")
+                .addClass(colGroupClasses[index % 3])
+                .addClass(cellValue ? 'fixed' : 'empty')
+                .text(cellValue);
+        }));
         const $divArray = $cells.map(($spanArray, index) => $("<div>")
             .addClass("row")
             .addClass(rowGroupClasses[index % 3])
@@ -44,11 +46,18 @@ class Grid {
     //对应检查按钮，检查数独结果（标记失败的项或提示成功）
     check() {
         //this map is a jquery function $.map((index,item)=>{...})
+        // const data = this._$container.children()
+        //     .toArray()
+        //     .map(div => $(div).children()
+        //         .map((colIndex, span) => +$(span).text() || 0))
+        //     .map($data => $data.toArray())
         const data = this._$container.children()
-            .map((rolIndex, div) => $(div).children()
-            .map((colIndex, span) => +$(span).text() || 0))
             .toArray()
-            .map($data => $data.toArray());
+            .map((div) => {
+            return $(div).children()
+                .toArray()
+                .map(span => +$(span).text() || 0);
+        });
         const checker = new checker_1.default(data);
         if (checker.check()) {
             return true;

@@ -6,6 +6,7 @@
 
 import Grid from "./ui/grid"
 import PopupNumbers from './ui/popupnumbers'
+import swal from 'sweetalert'
 
 const grid = new Grid($("#container"))
 grid.build()
@@ -16,9 +17,9 @@ const popupNumbers = new PopupNumbers($("#popupNumbers"))
 grid.bindPopup(popupNumbers)
 
 $('#check').on('click', e => {
-    if (grid.check()) {
-        alert('成功')
-    }
+    grid.check()
+        ? swal("成功", "  游戏检查通过，你太牛逼啦！", "success")
+        : swal("错误", "  背景标注为红色的部分为漏填或填写错误，请仔细检查后再次尝试。", "error")
 })
 
 $('#reset').on('click', e => {

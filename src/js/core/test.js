@@ -4,7 +4,7 @@
 * Date: 2018/6/25
 * Description: 测试代码-洗牌算法重构
 */
-let s1 = array => {
+let s1 = (array) => {
     const endIndex = array.length - 2;
     for (let i = 0; i <= endIndex; i++) {
         const j = ~~(Math.random() * (array.length - i)) + i;
@@ -12,7 +12,7 @@ let s1 = array => {
     }
     return array;
 };
-let s2 = array => array.map((v, i, a) => {
+let s2 = (array) => array.map((v, i, a) => {
     let index = ~~(Math.random() * (a.length - i)) + i;
     [a[i], a[index]] = [a[index], a[i]];
     return a[i];

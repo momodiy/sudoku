@@ -8,7 +8,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const checkArray = array => {
+const checkArray = (array) => {
     const length = array.length;
     const marks = new Array(length).fill(true); // 用于标记数组中错误的项
     array.map((v, i, a) => {
