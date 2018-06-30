@@ -6,10 +6,10 @@
 
 export class PopupNumbers {
 
-    private _$panel:JQuery;
-    private _targetCell:any;
+    private _$panel: JQuery;
+    private _targetCell: any;
 
-    constructor($panel:JQuery) {
+    constructor($panel: JQuery) {
         this._$panel = $panel.hide().removeClass('hidden')
 
         this._$panel.on('click', 'span', e => {
@@ -43,9 +43,10 @@ export class PopupNumbers {
         })
     }
 
-    popup($cell:JQuery) {
+    popup($cell: JQuery) {
         this._targetCell = $cell
-        const {left, top} = $cell.position()
+        let {left, top} = $cell.position()
+        left = left > 288 ? left + 7 - 43.75 * 2 : left
         this._$panel.css({
             left: `${left}px`,
             top: `${top}px`
