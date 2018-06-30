@@ -11,14 +11,14 @@ gulp.task('webpack', () => {
   const config = require('./webpack.config.js')
   return gulp.src('./js/**/*.ts')
     .pipe(webpack(config, require('webpack')))
-    .pipe(gulp.dest('../www/js'))
+    .pipe(gulp.dest('../dist/js'))
 })
 
 gulp.task('less', () => {
   const less = require('gulp-less')
   return gulp.src('./less/*.less')
     .pipe(less())
-    .pipe(gulp.dest('../www/css'))
+    .pipe(gulp.dest('../dist/css'))
 })
 
 gulp.task('default', ['webpack', 'less'])
