@@ -40,7 +40,12 @@ typescript + ts-loader + less + ES6/7 + gulp + webpack + webpack-stream + babel-
 ### 4.开始游戏
     运行dist目录下的index.html文件即可运行游戏。
     
+## 在线演示
+
+在线演示[*点这里*](https://momodiy.github.io/demo/sudoku/)
+
+注：PC端打开时模拟手机查看可获得更佳体验。
+
 ## License
 MIT License
-
 Copyright (c) 2018 Steven Lee
