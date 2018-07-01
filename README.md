@@ -6,6 +6,7 @@ typescript开发的数独游戏，支持移动端。
 typescript + ts-loader + less + ES6/7 + gulp + webpack + webpack-stream + babel-loader + yarn + sweetalert
 
 ## 目录介绍
+- app 手机应用程序（仅包含成Android版本）
 - src 主要编辑文件
     - js 用于存放typescript逻辑代码以及生成的javascript代码
         - core 核心逻辑代码
