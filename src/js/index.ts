@@ -18,7 +18,7 @@ grid.bindPopup(popupNumbers)
 
 $('#check').on('click', e => {
     grid.check()
-        ? swal("成功", "  游戏检查通过，你太牛逼啦！", "success")
+        ? swal("成功", "  游戏检查通过，你太牛逼啦！", "success") && grid.clear()
         : swal("错误", "  背景标注为红色的部分为漏填或填写错误，请仔细检查后再次尝试。", "error")
 })
 

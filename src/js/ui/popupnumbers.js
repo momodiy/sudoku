@@ -41,7 +41,8 @@ class PopupNumbers {
     }
     popup($cell) {
         this._targetCell = $cell;
-        const { left, top } = $cell.position();
+        let { left, top } = $cell.position();
+        left = left > 288 ? left + 7 - 43.75 * 2 : left;
         this._$panel.css({
             left: `${left}px`,
             top: `${top}px`
