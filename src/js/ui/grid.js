@@ -97,11 +97,14 @@ class Grid {
     bindPopup(popupNumbers) {
         //事件代理，将click事件绑定到container上
         this._$container.on('click', 'span', e => {
+            e.stopPropagation();
             const $cell = $(e.target);
-            if ($cell.is('.fixed'))
-                return;
+            if ($cell.is('.fixed')) {
+                return $('#popupNumbers').css({ 'display': 'none' });
+            }
             popupNumbers.popup($cell);
         });
+        $('body').on('click', () => $('#popupNumbers').css({ 'display': 'none' }));
     }
 }
 exports.Grid = Grid;

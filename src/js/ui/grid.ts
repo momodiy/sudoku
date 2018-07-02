@@ -26,7 +26,7 @@ class Grid {
         const rowGroupClasses = ['row_g_top', 'row_g_middle', 'row_g_bottom']
         const colGroupClasses = ['col_g_left', 'col_g_center', 'col_g_right']
 
-        const $cells = matrix.map((rowValues:number[]) => rowValues
+        const $cells = matrix.map((rowValues: number[]) => rowValues
             .map((cellValue, index) => {
                 return $("<span>")
                     .addClass(colGroupClasses[index % 3])
@@ -34,7 +34,7 @@ class Grid {
                     .text(cellValue)
             }));
 
-        const $divArray = $cells.map(($spanArray:JQuery, index:number) =>
+        const $divArray = $cells.map(($spanArray: JQuery, index: number) =>
             $("<div>")
                 .addClass("row")
                 .addClass(rowGroupClasses[index % 3])
@@ -114,10 +114,15 @@ class Grid {
     bindPopup(popupNumbers: PopupNumbers) {
         //事件代理，将click事件绑定到container上
         this._$container.on('click', 'span', e => {
+            e.stopPropagation();
             const $cell = $(e.target)
-            if ($cell.is('.fixed')) return
+            if ($cell.is('.fixed')) {
+                return $('#popupNumbers').css({'display': 'none'})
+            }
             popupNumbers.popup($cell)
         })
+
+        $('body').on('click', () => $('#popupNumbers').css({'display': 'none'}))
     }
 }
 

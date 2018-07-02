@@ -18,7 +18,7 @@ const popupNumbers = new popupnumbers_1.default($("#popupNumbers"));
 grid.bindPopup(popupNumbers);
 $('#check').on('click', e => {
     grid.check()
-        ? sweetalert_1.default("成功", "  游戏检查通过，你太牛逼啦！", "success")
+        ? sweetalert_1.default("成功", "  游戏检查通过，你太牛逼啦！", "success") && grid.clear()
         : sweetalert_1.default("错误", "  背景标注为红色的部分为漏填或填写错误，请仔细检查后再次尝试。", "error");
 });
 $('#reset').on('click', e => {
